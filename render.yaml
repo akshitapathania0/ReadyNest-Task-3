@@ -1,10 +1,9 @@
 services:
-  # Backend API
   - type: web
-    name: instaforge-backend
+    name: instaforge
     runtime: node
     rootDir: backend
-    buildCommand: npm install && npx prisma generate && npx prisma migrate deploy
+    buildCommand: npm install && cd ../frontend && npm install && npm run build && cd ../backend && npx prisma generate && npx prisma migrate deploy
     startCommand: node src/index.js
     envVars:
       - key: NODE_ENV
@@ -13,21 +12,9 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: CLIENT_URL
-        sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
         sync: false
       - key: CLOUDINARY_API_SECRET
-        sync: false
-
-  # Frontend Static Site
-  - type: static
-    name: instaforge-frontend
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
         sync: false
