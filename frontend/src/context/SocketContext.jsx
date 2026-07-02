@@ -17,9 +17,7 @@ export function SocketProvider({ children }) {
       return;
     }
 
-    const instance = io(API_URL, {
-      withCredentials: true, // sends the httpOnly cookie for socket auth
-    });
+    const instance = io("/", { withCredentials: true });
 
     instance.on("connect", () => setConnected(true));
     instance.on("disconnect", () => setConnected(false));
