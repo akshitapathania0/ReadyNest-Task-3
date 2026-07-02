@@ -3,6 +3,7 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const { initSocket } = require("./config/socket");
 const errorHandler = require("./middleware/errorHandler");
@@ -43,6 +44,10 @@ app.use("/api/messages", messageRoutes);
 app.use("/api", (req, res) => res.status(404).json({ error: "Not found" }));
 
 app.use(errorHandler);
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist", "index.html"));
+});
 
 initSocket(server);
 
